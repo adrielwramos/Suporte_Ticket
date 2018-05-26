@@ -19,6 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('tickets', 'TicketsController');
+
+Route::resource('comments', 'CommentsController');
+
 // Admin routes
 Route::prefix('admin')->group(function(){
     Route::get('/', 'AdminsController@index')->name('admin');
