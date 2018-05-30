@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Ticket;
 use Illuminate\Http\Request;
 use Auth;
@@ -21,7 +22,12 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->isAdmin()){
+            $ticket = Ticket::orderBy('level', 'desc')->paginate(15);
+        }else{
+            $ticket = Ticket::where('user_id','=', Auth::id())->orderBy('level', 'desc')->paginate(15);
+        }
+        return view('tickets.index', array('tickets' => $ticket));
     }
 
     /**
@@ -61,7 +67,7 @@ class TicketsController extends Controller
             'email' => request('email'),
             'category' => request('category'),
             'level' => request('level'),
-            'status' => "New",
+            'status' => request('status'),
             'description' => request('description'),
         ]);
 
@@ -89,7 +95,12 @@ class TicketsController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+       if(auth()->user()->isAdmin())
+        {
+            return view('tickets.show', compact('ticket'));
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -99,11 +110,26 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request,Ticket $ticket)
     {
-        //
+       if(auth()->user()->isAdmin())
+        {            
+            Ticket::where('uuid',$uuid)->update(['status' => 0]);
+            return view('tickets.show', compact('ticket'));
+        }else{
+            return redirect()->back();
+        }
     }
-
+    public function fechar(Ticket $ticket)
+    {
+       if(auth()->user()->isAdmin())
+        {            
+            /*Ticket::where('uuid',$ticket->uuid)->update(['status' => 0]);*/
+            return view('tickets.show', compact('ticket'));
+        }else{
+            return redirect()->back();
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -112,6 +138,12 @@ class TicketsController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+         if(auth()->user()->isAdmin())
+        {
+            $ticket->delete();
+            return view('tickets.show', compact('ticket'));
+        }else{
+            return redirect()->back();
+        }
     }
 }
