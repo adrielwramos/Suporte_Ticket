@@ -23,9 +23,10 @@ class CreateTicketsTable extends Migration
             $table->string('email');
             $table->string('category');
             $table->string('level');
-            $table->string('status')->default('New');
+            $table->string('status');
             $table->longText('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
