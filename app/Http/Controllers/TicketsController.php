@@ -23,9 +23,9 @@ class TicketsController extends Controller
     public function index()
     {
         if(Auth::user()->isAdmin()){
-            $ticket = Ticket::orderBy('level', 'desc')->paginate(15);
+            $ticket = Ticket::orderBy('status', 'Aberto')->paginate(20);
         }else{
-            $ticket = Ticket::where('user_id','=', Auth::id())->orderBy('level', 'desc')->paginate(15);
+            $ticket = Ticket::where('user_id','=', Auth::id())->orderBy('status', 'Aberto')->paginate(20);
         }
         return view('tickets.index', array('tickets' => $ticket));
     }
@@ -110,21 +110,27 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Ticket $ticket)
+    public function update($uuid)
     {
-       if(auth()->user()->isAdmin())
-        {            
-            Ticket::where('uuid',$uuid)->update(['status' => 0]);
-            return view('tickets.show', compact('ticket'));
-        }else{
-            return redirect()->back();
-        }
+      $ticket = Ticket::find($id);
+      $ticket->status = 0;
+      $ticket->save();
+       return view('tickets.show', compact('ticket'));
     }
+
     public function fechar(Ticket $ticket)
     {
+       $ticket = Ticket::find($uuid);
+      $ticket->status = 0;
+      $ticket->save();
+       return view('tickets.show', compact('ticket'));
+    }
+
+    public function abrir(Ticket $ticket)
+    {
        if(auth()->user()->isAdmin())
         {            
-            /*Ticket::where('uuid',$ticket->uuid)->update(['status' => 0]);*/
+            Ticket::where('uuid',$ticket->uuid)->update(['status' => 1]);
             return view('tickets.show', compact('ticket'));
         }else{
             return redirect()->back();
@@ -136,14 +142,12 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy($uuid)
     {
-         if(auth()->user()->isAdmin())
-        {
-            $ticket->delete();
-            return view('tickets.show', compact('ticket'));
-        }else{
-            return redirect()->back();
-        }
+        
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to('tickets');
     }
 }

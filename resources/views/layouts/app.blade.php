@@ -10,10 +10,22 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- DataTable Scripts -->
+    {{-- <script src="DataTables/datatables.min.js"></script> --}}
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css"> --}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     @yield('custom_css')
+    {{-- <link rel="stylesheet" href="DataTables/datatables.min.css"> --}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
 </head>
 <body>
     <div id="app">
@@ -29,51 +41,59 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link" href="">Novo Ticket</a></li>                            
-                        <li><a class="nav-link" href="">Ver Tickets</a></li>                            
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        
                         <!-- Authentication Links -->
                         @guest
-                            @guest('admin')
-                                <li><a class="nav-link" href="{{ route('adminLoginForm') }}">Admin Panel</a></li>
-                            @endguest
-                            <li><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                        <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                        <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                                
-                            </li>
-                        @endguest
+                        @if(Auth::user()->isAdmin())
+                        <li><a href="{{ route('tickets.index') }}" class="nav-link">Todos os Tickets</a></li>
+                        @endif
+                        @if(Auth::user()->isUser())
+                        <li><a href="{{ route('tickets.index') }}" class="nav-link">Meus Tickets</a></li>
+                        @endif
+
                         
+                        <li><a href="{{ route('tickets.create') }}" class="nav-link">Abrir Ticket</a></li>
+                        <li><a href="" class="nav-link">Outro</a></li>
 
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                        @if(Auth::user()->isAdmin())
+                        <li><a href="{{ route('users.index') }}" class="nav-link">Usuários</a></li>
+                        @endif
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-warning" disabled>
+                              {{ Auth::user()->name }} <span class="badge badge-light"><i class="fas fa-user"> </i></span>
+                          </button>
+                      </li>
+                      <li>
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>  {{ __('Sair') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                @endguest
+            </ul>
+        </div>
     </div>
+</nav>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+<main class="py-4">
+    @yield('content')
+</main>
+</div>
+@yield('custom_js')
 </body>
 </html>

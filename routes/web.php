@@ -19,22 +19,27 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Ticket routes
 Route::resource('tickets', 'TicketsController');
 
+// Users
+Route::resource('users', 'UsersController');
+
+// Comments routes
 Route::resource('comments', 'CommentsController');
 
-// Admin routes
-Route::prefix('admin')->group(function(){
-    Route::get('/', 'AdminsController@index')->name('admin');
-    Route::get('login', 'Auth\AdminLoginController@showLoginForm')->name('adminLoginForm');
-    Route::post('login', 'Auth\AdminLoginController@login')->name('adminLoginSubmit');
-    Route::post('login/logout', 'Auth\AdminLoginController@logout')->name('adminLogout');
-    
-    // reset password
-    Route::post('password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('adminResetEmail'); // admin.password.email
-    Route::get('password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('adminResetRequestForm'); // admin.password.request
-    Route::post('password/reset', 'Auth\AdminResetPasswordController@reset')->name('resetPostRequest');
-    Route::get('password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('adminShowResetForm'); // admin.password.reset
+Route::get('tickets.fechar',[
+    'as' => 'tickets.fechar',
+    'uses' => 'TicketsController@fechar'
+]);
 
-});
+Route::get('tickets.abrir',[
+    'as' => 'tickets.abrir',
+    'uses' => 'TicketsController@abrir'
+]);
+
+Route::get('tickets.destroy',[
+    'as' => 'tickets.destroy',
+    'uses' => 'TicketsController@destroy'
+]);
 

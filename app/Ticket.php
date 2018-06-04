@@ -2,13 +2,25 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Comment;
 
 class Ticket extends Model
 {
+    use Notifiable;
+ 
+   use SoftDeletes;
+ 
+   protected $dates = ['deleted_at'];
+
     protected $guarded = [];
+
+    protected $fillable = [
+        'uuid', 'ref', 'title', 'fullname', 'email', 'category', 'level', 'status', 'description',
+    ];
 
     public function getRouteKeyName()
     {
@@ -23,14 +35,5 @@ class Ticket extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function isFechado()
-    {
-        return $this->status === '0';
-    }
-    public function isAberto()
-    {
-        return $this->status === '1';
     }
 }
