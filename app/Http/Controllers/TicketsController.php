@@ -8,24 +8,22 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Str;
 
-class TicketsController extends Controller
-{
+class TicketsController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        if(Auth::user()->isAdmin()){
+    public function index() {
+        if (Auth::user()->isAdmin()) {
             $ticket = Ticket::orderBy('status', 'Aberto')->paginate(20);
-        }else{
-            $ticket = Ticket::where('user_id','=', Auth::id())->orderBy('status', 'Aberto')->paginate(20);
+        } else {
+            $ticket = Ticket::where('user_id', '=', Auth::id())->orderBy('status', 'Aberto')->paginate(20);
         }
         return view('tickets.index', array('tickets' => $ticket));
     }
@@ -35,8 +33,7 @@ class TicketsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $user = Auth::user();
         return view('tickets.create', compact('user'));
     }
@@ -47,8 +44,7 @@ class TicketsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
             'title' => 'required',
             'fullname' => 'required',
@@ -59,21 +55,19 @@ class TicketsController extends Controller
         ]);
 
         $ticket = Ticket::create([
-            'user_id' => auth()->id(),
-            'uuid' => Str::uuid(),
-            'ref' => date('dmYHis') . "/" . rand(1, 100),
-            'title' => request('title'),
-            'fullname' => request('fullname'),
-            'email' => request('email'),
-            'category' => request('category'),
-            'level' => request('level'),
-            'status' => request('status'),
-            'description' => request('description'),
+                    'user_id' => auth()->id(),
+                    'uuid' => Str::uuid(),
+                    'ref' => date('dmYHis') . "/" . rand(1, 100),
+                    'title' => request('title'),
+                    'fullname' => request('fullname'),
+                    'email' => request('email'),
+                    'category' => request('category'),
+                    'level' => request('level'),
+                    'status' => request('status'),
+                    'description' => request('description'),
         ]);
 
         return redirect()->route('tickets.show', $ticket);
-
-        
     }
 
     /**
@@ -82,9 +76,8 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
-    {
-        return view('tickets.show', compact('ticket'));
+    public function show(Ticket $ticket) {
+        return view('tickets.show')->with('ticket', $ticket);
     }
 
     /**
@@ -93,12 +86,10 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ticket $ticket)
-    {
-       if(auth()->user()->isAdmin())
-        {
+    public function edit(Ticket $ticket) {
+        if (auth()->user()->isAdmin()) {
             return view('tickets.show', compact('ticket'));
-        }else{
+        } else {
             return redirect()->back();
         }
     }
@@ -110,44 +101,41 @@ class TicketsController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update($uuid)
-    {
-      $ticket = Ticket::find($id);
-      $ticket->status = 0;
-      $ticket->save();
-       return view('tickets.show', compact('ticket'));
+    public function update($uuid) {
+        $ticket = Ticket::find($id);
+        $ticket->status = 0;
+        return view('tickets.show', compact('ticket'));
     }
 
-    public function fechar(Ticket $ticket)
-    {
-       $ticket = Ticket::find($uuid);
-      $ticket->status = 0;
-      $ticket->save();
-       return view('tickets.show', compact('ticket'));
-    }
-
-    public function abrir(Ticket $ticket)
-    {
-       if(auth()->user()->isAdmin())
-        {            
-            Ticket::where('uuid',$ticket->uuid)->update(['status' => 1]);
-            return view('tickets.show', compact('ticket'));
-        }else{
-            return redirect()->back();
+    public function fechar(Request $request) {
+        if ($request->route('uuid')) {
+            $ticketrequest = $request->route('uuid');
+            $ticketdb = Ticket::where("uuid", $ticketrequest)->first();
+            $ticketdb->status = 0;
+            $ticketdb->save();
+            return $this->show($ticketdb);
         }
     }
+
+    public function abrir(Request $request) {
+        if ($request->route('uuid')) {
+            $ticketrequest = $request->route('uuid');
+            $ticketdb = Ticket::where("uuid", $ticketrequest)->first();
+            $ticketdb->status = 1;
+            $ticketdb->save();
+            return $this->show($ticketdb);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function destroy($uuid)
-    {
-        
-
-        // redirect
-        Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to('tickets');
+    public function destroy(Ticket $ticket) {
+            $ticket->delete();
+            return view('tickets.index');
     }
+
 }

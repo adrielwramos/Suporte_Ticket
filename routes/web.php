@@ -17,6 +17,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('tickets/fechar/{uuid}',[
+    'as' => 'tickets.fechar',
+    'uses' => 'TicketsController@fechar'
+]);
+
+Route::get('tickets/abrir/{uuid}',[
+    'as' => 'tickets.abrir',
+    'uses' => 'TicketsController@abrir'
+]);
+
+Route::get('tickets/destroy/{uuid}',[
+    'as' => 'tickets.destroy',
+    'uses' => 'TicketsController@destroy'
+]);
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Ticket routes
@@ -27,19 +42,4 @@ Route::resource('users', 'UsersController');
 
 // Comments routes
 Route::resource('comments', 'CommentsController');
-
-Route::get('tickets.fechar',[
-    'as' => 'tickets.fechar',
-    'uses' => 'TicketsController@fechar'
-]);
-
-Route::get('tickets.abrir',[
-    'as' => 'tickets.abrir',
-    'uses' => 'TicketsController@abrir'
-]);
-
-Route::get('tickets.destroy',[
-    'as' => 'tickets.destroy',
-    'uses' => 'TicketsController@destroy'
-]);
 

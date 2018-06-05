@@ -8,7 +8,6 @@
             <hr class="text-muted">
             <p>
             <a class="btn btn-info" href="{{route('tickets.create')}}"> <i class="fas fa-plus-square"> Abrir Ticket</i></a>
-            <a class="btn btn-info" href="{{ URL::to('tickets/create') }}"> <i class="fas fa-plus-square"> Abrir Ticket3</i></a>
         </p>
             <div class="card">
                 @if(Auth::user()->isAdmin())
@@ -56,21 +55,12 @@
                                         <td>
                                             <a class="btn btn-primary" href="{{ route('tickets.show', $ticket->uuid) }}"><span class="fa fa-eye"> Ver</span></a>
                                             @if($ticket->status == 1)
-                        <a href="{{ URL::to('tickets/' . $ticket->uuid . '/update') }}"><button class="btn btn-success"><span class="fa fa-lock"> Fechar Ticket</span></button></a>
+                        <a href="{{ route('tickets.fechar', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock"> Fechar Ticket</span></button></a>
                         @else
-                        <a href="{{ route('tickets.update', $ticket->id) }}"><button class="btn btn-success"><span class="fa fa-lock-open"> Reabrir Ticket</span></button></a>
+                        <a href="{{ route('tickets.abrir', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock-open"> Reabrir Ticket</span></button></a>
                         @endif
-                        <form class="form-horizontal" role="form" method="PUT" action="{{ route('tickets.update', $ticket->uuid) }}">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="status" value="0">
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash">
-                                        Fechar
-                                        </span>
-                                    </button>
-                                </form>
                         @if(Auth::user()->isAdmin())
-                        <form action="{{ URL::to('tickets/' . $ticket->uuid) }}" method="POST">
+                        <form action="{{ route('tickets.destroy', $ticket->uuid) }}" method="POST">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button class="btn btn-danger" onclick="return confirm('Deseja mesmo excluir?')">

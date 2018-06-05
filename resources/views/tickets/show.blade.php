@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="container">
-        <ol class="breadcrumb">
+    <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('tickets.index') }}">Tickets</a></li>
             <li class="breadcrumb-item active">Detalhes #{{ $ticket->id }}</li>
         </ol>
@@ -45,15 +45,21 @@
                                 </tr>   
                                 <tr>
                                     <th>Prioridade</th>
-                                    @if($ticket->level === "Alta")
-                                    <td>{{ $ticket->level }}</td>
-                                    @else
-                                    <td> {{ $ticket->level }}</td>
-                                    @endif
+                                    @if($ticket->level == "Alta")
+                                        <td class="badge badge-danger">{{ $ticket->level }}</td>
+                                        @elseif($ticket->level == "Normal")
+                                        <td class="badge badge-default">{{ $ticket->level }}</td>
+                                        @elseif($ticket->level == "Baixa")
+                                        <td class="badge badge-primary">{{ $ticket->level }}</td>
+                                        @endif
                                 </tr>   
                                 <tr>
                                     <th>Status</th>
-                                    <td> {{ $ticket->status }}</td>
+                                    @if($ticket->status == 0)
+                                        <td><span class="badge badge-danger">Fechado</span></td>
+                                        @else
+                                        <td><span class="badge badge-success">Aberto</span></td>
+                                        @endif
                                 </tr>   
                                 <tr>
                                     <th>Descrição</th>
@@ -64,7 +70,7 @@
                         @if($ticket->status == 1)
                         <a href="{{ route('tickets.fechar', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock">Fechar Ticket</span></button></a>
                         @else
-                        <a href="{{ route('tickets.update', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock-open">Reabrir Ticket</span></button></a>
+                        <a href="{{ route('tickets.abrir', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock-open">Reabrir Ticket</span></button></a>
                         @endif
                         @if(Auth::user()->isAdmin())
                         <form action="{{ route('tickets.destroy', $ticket->uuid) }}" method="POST">
