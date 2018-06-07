@@ -55,7 +55,7 @@ class TicketsController extends Controller {
         ]);
 
         $ticket = Ticket::create([
-                    'user_id' => auth()->id(),
+                    'user_id' => Auth::user()->id,
                     'uuid' => Str::uuid(),
                     'ref' => date('dmYHis') . "/" . rand(1, 100),
                     'title' => request('title'),
@@ -63,7 +63,7 @@ class TicketsController extends Controller {
                     'email' => request('email'),
                     'category' => request('category'),
                     'level' => request('level'),
-                    'status' => request('status'),
+                    'status' => 1,
                     'description' => request('description'),
         ]);
 
@@ -87,11 +87,7 @@ class TicketsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Ticket $ticket) {
-        if (auth()->user()->isAdmin()) {
-            return view('tickets.show', compact('ticket'));
-        } else {
-            return redirect()->back();
-        }
+        #
     }
 
     /**
@@ -102,9 +98,7 @@ class TicketsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update($uuid) {
-        $ticket = Ticket::find($id);
-        $ticket->status = 0;
-        return view('tickets.show', compact('ticket'));
+        #
     }
 
     public function fechar(Request $request) {
@@ -113,6 +107,7 @@ class TicketsController extends Controller {
             $ticketdb = Ticket::where("uuid", $ticketrequest)->first();
             $ticketdb->status = 0;
             $ticketdb->save();
+            return redirect()->back()->with('TicketFechar', 'Sucesso!');
             return $this->show($ticketdb);
         }
     }
@@ -123,7 +118,9 @@ class TicketsController extends Controller {
             $ticketdb = Ticket::where("uuid", $ticketrequest)->first();
             $ticketdb->status = 1;
             $ticketdb->save();
+            return redirect()->back()->with('TicketReabrir', 'Sucesso!');
             return $this->show($ticketdb);
+            
         }
     }
 
@@ -134,8 +131,18 @@ class TicketsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Ticket $ticket) {
+        if (auth()->user()->isAdmin()) {
             $ticket->delete();
-            return view('tickets.index');
+            if ($ticket) {
+                return redirect()
+                                ->back()
+                                ->with('deletarSucesso', 'Deletado com sucesso!');
+            } else {
+                return redirect()
+                                ->back()
+                                ->with('errors', 'Ocorreu um erro ao deletar!');
+            }
+        }
     }
 
 }

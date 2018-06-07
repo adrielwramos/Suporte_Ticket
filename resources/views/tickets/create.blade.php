@@ -50,7 +50,7 @@
                 <label for="exampleFormControlSelect2">Status</label>
                 <select class="form-control" id="status" name="status" required>
                     <option value="1" selected="">Aberto</option>
-                    <option value="0" disabled>Resolvido</option>
+                    <option value="0" disabled>Fechado</option>
                 </select>
             </div>
         </fieldset>

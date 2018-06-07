@@ -27,9 +27,14 @@ Route::get('tickets/abrir/{uuid}',[
     'uses' => 'TicketsController@abrir'
 ]);
 
-Route::get('tickets/destroy/{uuid}',[
-    'as' => 'tickets.destroy',
-    'uses' => 'TicketsController@destroy'
+Route::get('tickets/',[
+    'as' => 'tickets.aberto',
+    'uses' => 'TicketsController@aberto'
+]);
+
+Route::get('tickets/',[
+    'as' => 'tickets.fechado',
+    'uses' => 'TicketsController@fechado'
 ]);
 
 Route::get('/home', 'HomeController@index')->name('home');

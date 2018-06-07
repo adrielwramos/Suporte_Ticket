@@ -6,9 +6,34 @@
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
 @endsection
-
 @section('content')
 <div class="container">
+@section('content')
+<div class="container">
+    @if(Session::has("TicketFechar"))
+    <div class="alert alert-info"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <strong>Sucesso!</strong>
+        O Ticket <strong>#{{ $ticket->id }}</strong> foi fechado com sucesso!
+    </div>
+@endif
+@if(Session::has("TicketReabrir"))
+    <div class="alert alert-info"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <strong>Sucesso!</strong>
+        O Ticket <strong>#{{ $ticket->id }}</strong> foi reaberto com sucesso!
+    </div>
+@endif
+    @if(Session::has("Mensagemenviada"))
+    <div class="alert alert-success"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <strong>Sucesso!</strong>
+        Mensagem para o Ticket <strong>#{{ $ticket->id }}</strong> enviada com sucesso!
+    </div>
+@endif
+    @if(Session::has("deletarSucesso"))
+    <div class="alert alert-success"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <strong>Sucesso!</strong>
+        Sua mensagem do Ticket <strong>#{{ $ticket->id }}</strong> foi excluída com sucesso!
+    </div>
+@endif
     <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('tickets.index') }}">Tickets</a></li>
             <li class="breadcrumb-item active">Detalhes #{{ $ticket->id }}</li>
@@ -68,20 +93,9 @@
                             </tbody>
                         </table>
                         @if($ticket->status == 1)
-                        <a href="{{ route('tickets.fechar', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock">Fechar Ticket</span></button></a>
+                        <a href="{{ route('tickets.fechar', $ticket->uuid) }}"><button class="btn btn-warning"><span class="fa fa-lock"> Fechar Ticket</span></button></a>
                         @else
-                        <a href="{{ route('tickets.abrir', $ticket->uuid) }}"><button class="btn btn-success"><span class="fa fa-lock-open">Reabrir Ticket</span></button></a>
-                        @endif
-                        @if(Auth::user()->isAdmin())
-                        <form action="{{ route('tickets.destroy', $ticket->uuid) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-danger" onclick="return confirm('Deseja mesmo excluir?')">
-                                        <span class="fa fa-trash">
-                                        Excluir
-                                        </span>
-                                    </button>
-                                </form>
+                        <a href="{{ route('tickets.abrir', $ticket->uuid) }}"><button class="btn btn-warning"><span class="fa fa-lock-open"> Reabrir Ticket</span></button></a>
                         @endif
                     </div>
                 </div>
@@ -89,7 +103,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="row justify-content-center" style="margin-top: 20px;">
     <div class="col-md-12 col-lg-12 col-sm-12">
@@ -119,9 +132,13 @@
                         <p>{{ $comment->body }}</p>
                          @if(Auth::user()->isAdmin())
                         <div class="stats">
-                            <a href="#" class="btn btn-danger stat-item">
-                                <i class="fa fa-trash"> Excluir Mensagem</i>
-                            </a>
+                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn-danger" onclick="return confirm('Deseja mesmo excluir?')">
+                                        <span class="fa fa-trash"> Excluir</span>
+                                    </button>
+                                </form>
                         </div>
                          @endif
                     </div>
@@ -138,7 +155,7 @@
                         <div class="form-group">
                             <textarea class="form-control" name="body" id="body" rows="5"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                        <button type="submit" class="btn btn-primary"> <span class="fa fa-send"> Enviar Mensagem</span></button>
                     </form>
                 </div>
             </div>

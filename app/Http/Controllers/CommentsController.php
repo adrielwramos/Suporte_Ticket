@@ -45,7 +45,15 @@ class CommentsController extends Controller
             'body' => request('body'),
         ]);
 
-        return redirect()->back();
+        if ($comment) {
+                return redirect()
+                                ->back()
+                                ->with('Mensagemenviada', 'Deletado com sucesso!');
+            } else {
+                return redirect()
+                                ->back()
+                                ->with('errors', 'Ocorreu um erro!');
+            }
     }
 
     /**
@@ -56,7 +64,7 @@ class CommentsController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+     
     }
 
     /**
@@ -90,6 +98,17 @@ class CommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        if (auth()->user()->isAdmin()) {
+            $comment->delete();
+            if ($comment) {
+                return redirect()
+                                ->back()
+                                ->with('deletarSucesso', 'Deletado com sucesso!');
+            } else {
+                return redirect()
+                                ->back()
+                                ->with('errors', 'Ocorreu um erro ao deletar!');
+            }
+        }
     }
 }

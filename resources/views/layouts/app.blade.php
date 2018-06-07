@@ -62,7 +62,6 @@
 
                         
                         <li><a href="{{ route('tickets.create') }}" class="nav-link">Abrir Ticket</a></li>
-                        <li><a href="" class="nav-link">Outro</a></li>
 
                         @if(Auth::user()->isAdmin())
                         <li><a href="{{ route('users.index') }}" class="nav-link">Usuários</a></li>

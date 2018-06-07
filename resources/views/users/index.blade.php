@@ -16,7 +16,6 @@
                                 <th>Nome</th>
                                 <th>E-mail</th>
                                 <th>Nível</th>
-                                <th>Ação</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -25,8 +24,11 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        @if($user->role == "admin")
+                                        <td><span class="badge badge-warning">{{ $user->role }}</span></td>
+                                        @elseif($user->role == "user")
                                         <td><span class="badge badge-primary">{{ $user->role }}</span></td>
-                                        <td> <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-primary"><span class="fa fa-eye"> Ver</span></button></a></td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
