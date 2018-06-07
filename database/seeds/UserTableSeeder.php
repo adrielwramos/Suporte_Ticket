@@ -6,15 +6,14 @@ use Illuminate\Support\Str;
 use Faker\Factory;
 use App\User;
 
-class UserTableSeeder extends Seeder
-{
+class UserTableSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         User::truncate();
         User::create([
             'uuid' => Str::uuid(),
@@ -38,4 +37,5 @@ class UserTableSeeder extends Seeder
             'role' => "user",
         ]);
     }
+
 }

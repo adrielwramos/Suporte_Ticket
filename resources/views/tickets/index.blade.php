@@ -9,12 +9,12 @@
             <p>
                 <a class="btn btn-info" href="{{route('tickets.create')}}"> <i class="fas fa-plus-square"> Abrir Ticket</i></a>
             </p>
-           @if(Session::has("deletarSucesso"))
-    <div class="alert alert-success"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <strong>Sucesso!</strong>
-        O ticket foi excluído com sucesso!
-    </div>
-@endif
+            @if(Session::has("deletarSucesso"))
+            <div class="alert alert-success"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                <strong>Sucesso!</strong>
+                O ticket foi excluído com sucesso!
+            </div>
+            @endif
             <div class="card">
                 @if(Auth::user()->isAdmin())
                 <div class="card-header">Todos os Tickets</div>

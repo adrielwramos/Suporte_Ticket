@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Comment;
 use Illuminate\Http\Request;
 
-class CommentsController extends Controller
-{
+class CommentsController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -22,8 +21,7 @@ class CommentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -33,27 +31,26 @@ class CommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate(request(), [
             'body' => 'required|min:5',
         ]);
 
         $comment = Comment::create([
-            'ticket_id' => request('ticket_id'),
-            'user_id' => auth()->id(),
-            'body' => request('body'),
+                    'ticket_id' => request('ticket_id'),
+                    'user_id' => auth()->id(),
+                    'body' => request('body'),
         ]);
 
         if ($comment) {
-                return redirect()
-                                ->back()
-                                ->with('Mensagemenviada', 'Deletado com sucesso!');
-            } else {
-                return redirect()
-                                ->back()
-                                ->with('errors', 'Ocorreu um erro!');
-            }
+            return redirect()
+                            ->back()
+                            ->with('Mensagemenviada', 'Deletado com sucesso!');
+        } else {
+            return redirect()
+                            ->back()
+                            ->with('errors', 'Ocorreu um erro!');
+        }
     }
 
     /**
@@ -62,9 +59,8 @@ class CommentsController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
-    {
-     
+    public function show(Comment $comment) {
+        
     }
 
     /**
@@ -73,8 +69,7 @@ class CommentsController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
-    {
+    public function edit(Comment $comment) {
         //
     }
 
@@ -85,8 +80,7 @@ class CommentsController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
-    {
+    public function update(Request $request, Comment $comment) {
         //
     }
 
@@ -96,8 +90,7 @@ class CommentsController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
-    {
+    public function destroy(Comment $comment) {
         if (auth()->user()->isAdmin()) {
             $comment->delete();
             if ($comment) {
@@ -111,4 +104,5 @@ class CommentsController extends Controller
             }
         }
     }
+
 }

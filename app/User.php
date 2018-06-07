@@ -7,8 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Ticket;
 use App\Comment;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
 
     /**
      * The attributes that are mass assignable.
@@ -28,24 +27,20 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function tickets()
-    {
+    public function tickets() {
         return $this->hasMany(Ticket::class);
     }
 
-    public function comments()
-    {
+    public function comments() {
         return $this->hasMany(Comment::class);
     }
-    
-    public function isAdmin()
-    {
+
+    public function isAdmin() {
         return $this->role === 'admin';
     }
 
-    public function isUser()
-    {
+    public function isUser() {
         return $this->role === 'user';
     }
-    
+
 }

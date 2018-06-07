@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Comment;
 
-class CommentTableSeeder extends Seeder
-{
+class CommentTableSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
@@ -14,7 +14,7 @@ class CommentTableSeeder extends Seeder
      */
     public function run() {
         Comment::truncate();
-        foreach(range(1, 30) as $i) {
+        foreach (range(1, 30) as $i) {
             Comment::create([
                 'ticket_id' => rand(1, 20),
                 'user_id' => rand(1, 3),
@@ -22,4 +22,5 @@ class CommentTableSeeder extends Seeder
             ]);
         }
     }
+
 }

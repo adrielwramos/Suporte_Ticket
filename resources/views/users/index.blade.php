@@ -11,25 +11,25 @@
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
                             <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Nível</th>
-                            </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Nível</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach($users as $user)
-                                    <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        @if($user->role == "admin")
-                                        <td><span class="badge badge-warning">{{ $user->role }}</span></td>
-                                        @elseif($user->role == "user")
-                                        <td><span class="badge badge-primary">{{ $user->role }}</span></td>
-                                        @endif
-                                    </tr>
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    @if($user->role == "admin")
+                                    <td><span class="badge badge-warning">{{ $user->role }}</span></td>
+                                    @elseif($user->role == "user")
+                                    <td><span class="badge badge-primary">{{ $user->role }}</span></td>
+                                    @endif
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

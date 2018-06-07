@@ -120,7 +120,6 @@ class TicketsController extends Controller {
             $ticketdb->save();
             return redirect()->back()->with('TicketReabrir', 'Sucesso!');
             return $this->show($ticketdb);
-            
         }
     }
 

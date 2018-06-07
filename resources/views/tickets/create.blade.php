@@ -18,7 +18,7 @@
             <label for="exampleFormControlInput1">Nome Completo</label>
             <input type="text" name="fullname" class="form-control" id="exampleFormControlInput1" value="{{ $user->name }}" required >
         </div>
-        
+
 
         <div class="form-group">
             <label for="exampleFormControlInput1">E-mail</label>
@@ -36,7 +36,7 @@
                 <option value="Feedback">Feedback</option>
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="exampleFormControlSelect2">Prioridade</label>
             <select class="form-control" id="level" name="level" required>

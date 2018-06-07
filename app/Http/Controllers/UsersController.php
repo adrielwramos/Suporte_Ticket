@@ -7,21 +7,19 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Str;
 
-class UsersController extends Controller
-{
+class UsersController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-       $user = User::orderBy('id', 'desc')->paginate(15);
+    public function index() {
+        $user = User::orderBy('id', 'desc')->paginate(15);
         return view('users.index', array('users' => $user));
     }
 
@@ -30,8 +28,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $user = Auth::user();
         return view('users.create', compact('users'));
     }
@@ -42,11 +39,8 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-       ##
-
-        
+    public function store(Request $request) {
+        ##
     }
 
     /**
@@ -55,8 +49,7 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
-    {
+    public function show(User $user) {
         return view('users.show', compact('users'));
     }
 
@@ -66,9 +59,8 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
-       ##
+    public function edit(User $user) {
+        ##
     }
 
     /**
@@ -78,9 +70,8 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user)
-    {
-      ##
+    public function update(Request $request, User $user) {
+        ##
     }
 
     /**
@@ -89,9 +80,8 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
-         ##
+    public function destroy(User $user) {
+        ##
     }
 
 }
