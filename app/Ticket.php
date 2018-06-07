@@ -19,7 +19,7 @@ class Ticket extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'uuid', 'ref', 'title', 'fullname', 'email', 'category', 'level', 'status', 'description',
+        'user_id', 'uuid', 'ref', 'title', 'fullname', 'email', 'category', 'level', 'status', 'description',
     ];
 
     public function getRouteKeyName()
