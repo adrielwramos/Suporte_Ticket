@@ -4,9 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 col-lg-12 col-sm-12">
+             @if(Auth::user()->isAdmin())
             <div class="card">
-                <div class="card-header">Meus Tickets</div>
-
+                <div class="card-header">Meus Usuários</div>               
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
@@ -35,7 +35,13 @@
                         </table>
                     </div>
                 </div>
+                </div>
+                @else
+                <div class="alert alert-info"><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                <strong>Opss!</strong>
+                Seu usuário não tem acesso a essa área!
             </div>
+                @endif
         </div>
     </div>
 </div>
