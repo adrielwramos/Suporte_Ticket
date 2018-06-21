@@ -29,8 +29,7 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $user = Auth::user();
-        return view('users.create', compact('users'));
+        ##
     }
 
     /**

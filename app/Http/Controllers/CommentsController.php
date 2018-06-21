@@ -45,7 +45,7 @@ class CommentsController extends Controller {
         if ($comment) {
             return redirect()
                             ->back()
-                            ->with('Mensagemenviada', 'Deletado com sucesso!');
+                            ->with('Mensagemenviada', 'Mensagem Enviada!');
         } else {
             return redirect()
                             ->back()
@@ -100,7 +100,7 @@ class CommentsController extends Controller {
             } else {
                 return redirect()
                                 ->back()
-                                ->with('errors', 'Ocorreu um erro ao deletar!');
+                                ->with('errors', 'Ocorreu um erro!');
             }
         }
     }

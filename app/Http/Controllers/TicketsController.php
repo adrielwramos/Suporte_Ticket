@@ -139,7 +139,7 @@ class TicketsController extends Controller {
             } else {
                 return redirect()
                                 ->back()
-                                ->with('errors', 'Ocorreu um erro ao deletar!');
+                                ->with('errors', 'Ocorreu um erro!');
             }
         }
     }
